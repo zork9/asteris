@@ -1,6 +1,6 @@
 package asterissrc;
 /*
-Copyright (C) 2012 Johan Ceuppens
+Copyright (C) 2012-2013 Johan Ceuppens
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
@@ -93,11 +93,15 @@ private Map map = new Map(0,0,400,2000,new ImageIcon(fileprefix+"map-level1-320x
 	bullets.clear();
 	enemies.clear();
 	boundingboxes.clear();	
-	map = new Map(0,0,320,200,new ImageIcon(fileprefix+"map-level2-320x200-1.png").getImage());
+
+	map = new Map(0,0,800,200,new ImageIcon(fileprefix+"map-level2-320x200-1.png").getImage());
 	boundingboxes.add(new BoundingBox(0,160,400,6));
 	///boundingboxes.add(new BoundingBox(-1000,160,2000,50));
 	//gateways.add(new Gateway(400-48,160-48,48,48,new ImageIcon(fileprefix+"gateways-48x48-1.png").getImage(),100,0));
-    }
+    
+	enemies.add(new Droid1(0,0,48,48));
+
+	}
 
     public void GameInit() {
         LevelInit();
@@ -174,6 +178,16 @@ private Map map = new Map(0,0,400,2000,new ImageIcon(fileprefix+"map-level1-320x
 	player.fall();
     }
 
+    public void DoMoveEnemies()
+    {
+	for (int i = 0; i < enemies.size(); i++) {
+		Object o = enemies.get(i);
+		Enemy eo = (Enemy)o;
+		eo.move();
+	}
+    }	
+
+    //garbage collect bullets which are offscreen
     public void DoMoveBullets()
     {
 	for (int i = 0; i < bullets.size(); i++) {
@@ -239,7 +253,9 @@ private Map map = new Map(0,0,400,2000,new ImageIcon(fileprefix+"map-level1-320x
       DrawPlayer(g2d);
       DoFallDown();
 
-	DoGarbageCollectBullets();
+      DoGarbageCollectBullets();
+
+      DoMoveEnemies(); 
 
       boolean bulletcollision = DoBulletCollision();
     
