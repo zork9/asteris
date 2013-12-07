@@ -230,6 +230,15 @@ private Map map = new Map(0,0,400,2000,new ImageIcon(fileprefix+"map-level1-320x
 	}
     }	
 
+    public void DrawEnemies(Graphics2D g2d)
+    {
+	for (int i = 0; i < enemies.size(); i++) {
+		Object o = enemies.get(i);
+		Enemy eo = (Enemy)o;
+		g2d.drawImage(eo.getImage(), eo.getx(), eo.gety(), this);
+	}
+    }	
+
 
 
     public void DrawPlayer(Graphics2D g2d) {
@@ -249,6 +258,7 @@ private Map map = new Map(0,0,400,2000,new ImageIcon(fileprefix+"map-level1-320x
 
       DrawMap(g2d);
       DrawGateways(g2d);
+      DrawEnemies(g2d);
       DrawBullets(g2d);
       DrawPlayer(g2d);
       DoFallDown();
